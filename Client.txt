@@ -1,0 +1,95 @@
+package com.example.ClientApp.pojos;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+
+
+@Entity
+@Table(name="Client_Tbl")
+public class Client {
+	private int clientId;
+	private String firstName;
+	private String lastName;
+	private Date DOB;
+	private ClientAddress address;
+	
+	public Client(int clientId, String firstName, String lastName, Date dob,ClientAddress addres) {
+		super();
+		
+		this.clientId = clientId;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.DOB = dob;
+		this.address= addres;
+	}
+	
+	public Client() {
+		super();
+		System.out.println("in Client Pojo");
+		// TODO Auto-generated constructor stub
+	}
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	public int getClientId() {
+		return clientId;
+	}
+	public void setClientId(int clientId) {
+		this.clientId = clientId;
+	}
+	
+	@Column
+	public String getFirstName() {
+		return firstName;
+	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	@JsonProperty("DOB")
+	public Date getDob() {
+		return DOB;
+	}
+	public void setDob(Date dob) {
+		this.DOB = dob;
+	}
+	
+	
+	@Cascade ( value = { CascadeType.ALL })
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="addressId")
+	@JsonProperty("clientAdd")
+	public ClientAddress getAddress() {
+		return address;
+	}
+
+	public void setAddress(ClientAddress address) {
+		this.address = address;
+	}
+
+	@Override
+	public String toString() {
+		return "Client [clientId=" + clientId + ", firstName=" + firstName + ", lastName=" + lastName + ", dob=" + DOB
+				+ "]";
+	}
+}
