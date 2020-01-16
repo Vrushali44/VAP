@@ -1,0 +1,64 @@
+package com.example.ClientApp.pojos;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@Entity
+@Table(name="ClientAddress_Tbl")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class ClientAddress {
+	
+	public int addressId ;
+	public String address;
+	public Client client;
+	@Override
+	public String toString() {
+		return "ClientAddress [addressId=" + addressId + ", address=" + address + ", client=" + client + "]";
+	}
+	
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	public int getAddressId() {
+		return addressId;
+	}
+	public void setAddressId(int addressId) {
+		this.addressId = addressId;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="clientId")
+	@JsonIgnore
+	public Client getClient() {
+		return client;
+	}
+	public void setClient(Client client) {
+		this.client = client;
+	}
+	public ClientAddress(int addressId, String address, Client client) {
+		super();
+		this.addressId = addressId;
+		this.address = address;
+		this.client = client;
+	}
+	public ClientAddress() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+}
